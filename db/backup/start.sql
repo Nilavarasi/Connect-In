@@ -199,10 +199,15 @@ SET default_with_oids = false;
 
 CREATE TABLE connect_in.users (
     id integer DEFAULT nextval('connect_in.user_id_seq'::regclass) NOT NULL,
-    user_name text,
+    first_name text,
+    last_name text,
+    gender text,
     interest text,
     likes integer,
     professional text,
+    posts text [],
+    userpic bytea, 
+    connections text [],
     created_at timestamp with time zone DEFAULT now(),
     deleted_at timestamp with time zone,
     updated_at timestamp with time zone
@@ -215,7 +220,7 @@ ALTER TABLE connect_in.users OWNER TO postgres;
 -- Data for Name: users; Type: TABLE DATA; Schema: connect_in; Owner: postgres
 --
 
-COPY connect_in.users (id, user_name, interest, likes, professional, created_at, deleted_at, updated_at) FROM stdin;
+COPY connect_in.users (id, first_name, last_name, gender, interest, likes, professional, post, created_at, deleted_at, updated_at) FROM stdin;
 \.
 
 
