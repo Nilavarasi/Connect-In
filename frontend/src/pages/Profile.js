@@ -1,10 +1,13 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import AppHeader from '../components/Header';
+import AppFooter from '../components/Footer';
 
 const Profile = () => (
-  <Header as="h2" textAlign="center">
-    Profile
-  </Header>
+  <div>
+    <AppHeader />
+    <p> Profile </p>
+    <AppFooter />
+  </div>
 );
 
 export default Profile;

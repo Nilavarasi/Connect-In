@@ -1,5 +1,3 @@
-# react-flask-pg-boilerplate
-
 ## To start the frontend
 - Run `yarn start:frontend`
 

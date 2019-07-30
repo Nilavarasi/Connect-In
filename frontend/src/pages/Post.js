@@ -1,10 +1,18 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
+import AppHeader from '../components/Header';
+import AppFooter from '../components/Footer';
 
 const Post = () => (
-  <Header as="h2" textAlign="center">
-    Post
-  </Header>
+  <div>
+    <AppHeader />
+    <Container fluid text style={{ padding: '2rem 0'}}>
+      <Header as="h2" textAlign="center">
+        Post
+      </Header>
+    </Container>
+    <AppFooter />
+  </div>
 );
 
 export default Post;

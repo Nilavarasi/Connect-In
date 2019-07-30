@@ -1,9 +1,16 @@
-from flask import Flask
+''' absolute imports '''
+from flask import Flask, jsonify, json
+
 import os
 app = Flask(__name__)
 
+''' relative imports '''
+from db_operations import getAllUsers
+
 @app.route('/')
 def hello_world():
+  users = getAllUsers()
+  print(users)
   return 'Hello, World!'
 
 if __name__=="__main__":
