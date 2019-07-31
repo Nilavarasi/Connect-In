@@ -90,6 +90,9 @@ SET default_with_oids = false;
 
 CREATE TABLE connect_in.posts(
     id integer DEFAULT nextval('connect_in.post_id_seq'::regclass) NOT NULL,
+    imgname text, 
+    img bytea,
+    post_text text,
     user_id integer,
     likes integer,
     liked_by integer[],

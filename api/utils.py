@@ -1,6 +1,7 @@
 import logging
 import psycopg2  # PostgreSQL Database Adapter
 import datetime  # Date time
+import base64 
 
 """ Connect db ad return cursor object """
 def connectDB() :
@@ -22,6 +23,9 @@ def concatData(users, col_names) :
     for user in users:
         dummy_arr = {}
         for i in range(len(user)):
-            dummy_arr[col_names[i]] = user[i]
+            if col_names[i] == 'img':
+                dummy_arr[col_names[i]] = base64.b64encode(user[i]).decode("utf-8")
+            else :
+                dummy_arr[col_names[i]] = user[i]
         final_res.append(dummy_arr)
     return final_res
