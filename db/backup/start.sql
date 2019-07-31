@@ -53,17 +53,56 @@ CREATE TABLE connect_in.users (
     interest text,
     likes integer,
     professional text,
-    posts text [],
     userpic bytea, 
-    connections text [],
+    connections integer[],
+    email text,
+    password text,
+    created_at timestamp with time zone DEFAULT now(),
+    deleted_at timestamp with time zone,
+    updated_at timestamp with time zone,
+    PRIMARY KEY (id),
+    CONSTRAINT user_unique UNIQUE (email)
+);
+
+ALTER TABLE connect_in.users OWNER TO postgres;
+
+--
+-- Name: post_id_seq; Type: SEQUENCE; Schema: connect_in; Owner: postgres
+--
+
+CREATE SEQUENCE connect_in.post_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE connect_in.post_id_seq OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: posts; Type: TABLE; Schema: connect_in; Owner: postgres
+--
+
+CREATE TABLE connect_in.posts(
+    id integer DEFAULT nextval('connect_in.post_id_seq'::regclass) NOT NULL,
+    user_id integer,
+    likes integer,
+    liked_by integer[],
+    comments text[],
+    commented_by integer[],
     created_at timestamp with time zone DEFAULT now(),
     deleted_at timestamp with time zone,
     updated_at timestamp with time zone
 );
 
-ALTER TABLE connect_in.users OWNER TO postgres;
+ALTER TABLE connect_in.posts ADD CONSTRAINT connect_in_user_post FOREIGN KEY (user_id) REFERENCES connect_in.users(id);
 
-
+ALTER TABLE connect_in.posts OWNER TO postgres;
 --
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: connect_in; Owner: postgres
 --
