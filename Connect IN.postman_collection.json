@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "045c876b-2f46-43cc-8868-3293efb9bc31",
+		"name": "Connect IN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:7002/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"pram@gmail.com\", \"password\": \"ram\"}\n"
+				},
+				"url": {
+					"raw": "localhost:7002/login",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"login"
+					]
+				},
+				"description": "OUTPUT:\n[\n    {\n        \"connections\": null,\n        \"created_at\": \"Wed, 31 Jul 2019 02:34:17 GMT\",\n        \"deleted_at\": null,\n        \"email\": \"pram@gmail.com\",\n        \"first_name\": \"Ram kumar\",\n        \"gender\": \"M\",\n        \"id\": 34,\n        \"interest\": \"Programming\",\n        \"last_name\": \"Parthipan\",\n        \"likes\": null,\n        \"password\": \"ram\",\n        \"posts\": null,\n        \"professional\": null,\n        \"updated_at\": null,\n        \"userpic\": null\n    }\n]\n\nelse:\nUser Not Exists"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/getAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:7002/getAllUsers",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"getAllUsers"
+					]
+				},
+				"description": "OUTPUT:\n[\n    {\n        \"connections\": null,\n        \"created_at\": \"Tue, 30 Jul 2019 09:35:31 GMT\",\n        \"deleted_at\": null,\n        \"email\": \"nilas116@gmail.com\",\n        \"first_name\": \"Nilavarasi\",\n        \"gender\": \"F\",\n        \"id\": 1,\n        \"interest\": \"Maths\",\n        \"last_name\": \"Sivasankaran\",\n        \"likes\": null,\n        \"password\": \"nila\",\n        \"posts\": null,\n        \"professional\": null,\n        \"updated_at\": null,\n        \"userpic\": null\n    },\n    {\n        \"connections\": null,\n        \"created_at\": \"Wed, 31 Jul 2019 02:34:17 GMT\",\n        \"deleted_at\": null,\n        \"email\": \"pram@gmail.com\",\n        \"first_name\": \"Ram kumar\",\n        \"gender\": \"M\",\n        \"id\": 34,\n        \"interest\": \"Programming\",\n        \"last_name\": \"Parthipan\",\n        \"likes\": null,\n        \"password\": \"ram\",\n        \"posts\": null,\n        \"professional\": null,\n        \"updated_at\": null,\n        \"userpic\": null\n    }\n]"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"first_name\": \"Nilavarasi\",\n\"last_name\": \"Sivasankaran\",\n\"email\": \"nilas116@gmail.com\",\n\"password\": \"nila\",\n\"gender\": \"F\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7002/register",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Success"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/addConnection",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_id\": 1,\n\t\"connector_id\":3\n}"
+				},
+				"url": {
+					"raw": "localhost:7002/addConnection",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"addConnection"
+					]
+				},
+				"description": "Success"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/getUser/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:7002/getUser/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"getUser",
+						"1"
+					]
+				},
+				"description": "[\n    {\n        \"connections\": [\n            2,\n            3\n        ],\n        \"created_at\": \"Wed, 31 Jul 2019 09:25:20 GMT\",\n        \"deleted_at\": null,\n        \"email\": \"jega@gmail.com\",\n        \"first_name\": \"Jeghadish\",\n        \"gender\": \"M\",\n        \"id\": 1,\n        \"interest\": null,\n        \"last_name\": \"Sivasankaran\",\n        \"likes\": null,\n        \"password\": \"jega\",\n        \"professional\": null,\n        \"updated_at\": null,\n        \"userpic\": null\n    }\n]"
+			},
+			"response": []
+		}
+	]
+}
