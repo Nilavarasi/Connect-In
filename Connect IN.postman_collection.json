@@ -141,6 +141,90 @@
 				"description": "[\n    {\n        \"connections\": [\n            2,\n            3\n        ],\n        \"created_at\": \"Wed, 31 Jul 2019 09:25:20 GMT\",\n        \"deleted_at\": null,\n        \"email\": \"jega@gmail.com\",\n        \"first_name\": \"Jeghadish\",\n        \"gender\": \"M\",\n        \"id\": 1,\n        \"interest\": null,\n        \"last_name\": \"Sivasankaran\",\n        \"likes\": null,\n        \"password\": \"jega\",\n        \"professional\": null,\n        \"updated_at\": null,\n        \"userpic\": null\n    }\n]"
 			},
 			"response": []
+		},
+		{
+			"name": "localhost:7002/post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"img_name\": \"Screenshot\",\n\t\"img\": \"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=\",\n\t\"post_text\":\"enjoyed screenshot\",\n\t\"user_id\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:7002/post",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"post"
+					]
+				},
+				"description": "Success"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/likePost",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"post_id\":\"1\",\n\t\"user_id\":1\n}"
+				},
+				"url": {
+					"raw": "localhost:7002/likePost",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"likePost"
+					]
+				},
+				"description": "Success"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7002/getUserPost/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:7002/getUserPost/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"getUserPost",
+						"1"
+					]
+				},
+				"description": "[\n    {\n        \"commented_by\": null,\n        \"comments\": null,\n        \"created_at\": \"Wed, 31 Jul 2019 15:42:55 GMT\",\n        \"deleted_at\": null,\n        \"id\": 1,\n        \"img\": \"aVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUFFQUFBQUJBUU1BQUFBbDIxYktBQUFBQTFCTVZFVUFBQUNuZWozYUFBQUFBWFJTVGxNQVFPYllaZ0FBQUFwSlJFRlVDTmRqWUFBQUFBSUFBZUlodkRNQUFBQUFTVVZPUks1Q1lJST0=\",\n        \"imgname\": \"Screenshot\",\n        \"liked_by\": [\n            1,\n            1\n        ],\n        \"likes\": 1,\n        \"post_text\": \"enjoyed screenshot\",\n        \"updated_at\": null,\n        \"user_id\": 1\n    }\n]"
+			},
+			"response": []
 		}
 	]
 }
