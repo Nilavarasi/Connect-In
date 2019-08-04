@@ -1,5 +1,5 @@
 import * as types from './constants';
-// import apiInstance from '../../utils/api';
+import apiInstance from '../../utils/api';
 import { setUser, removeUser, getUser } from '../../utils/global';
 import {
   user as dummyUser,
@@ -15,6 +15,7 @@ const initDone = () => ({ type: types.INIT_DONE });
 const userRequest = () => ({ type: types.ACTION_REQUEST_USER });
 const userError = error => ({ type: types.ACTION_ERROR_USER, error });
 const loginSuccess = user => ({ type: types.LOGIN_SUCCESS, user });
+const registerSuccess = () => ({ type: types.LOGIN_SUCCESS });
 const logoutAction = () => ({ type: types.LOGOUT });
 
 const postRequest = () => ({ type: types.ACTION_REQUEST_POST });
@@ -29,14 +30,37 @@ const getAllConnections = connections => ({ type: types.GET_ALL_CONNECTION, conn
 const addConnection = connection => ({ type: types.ADD_CONNECTION, connection });
 const deleteConnection = id => ({ type: types.DELETE_CONNECTION, id });
 
-export const login = (username, password) => {
+export const login = (email, password) => {
   return async(dispatch) => {
     dispatch(userRequest());
     try {
-      // const user = await apiInstance.post('/login', JSON.stringify({ username, password }));
-      const user = await Promise.resolve(dummyUser);
-      setUser(user);
-      return dispatch(loginSuccess(user));
+      const user = await apiInstance.post('/login', JSON.stringify({email: email, password: password}));
+      // const user = await Promise.resolve(dummyUser);
+      if (user.data === 'User Not Exists') {
+        dispatch(userError(user.data));
+      } else {
+        setUser(user);
+        return dispatch(loginSuccess(user));
+      }
+    } catch(e) {
+      dispatch(userError(e));
+      console.error(e);
+    }
+  };
+}
+
+export const register = (first_name, last_name, professional, gender, email, password) => {
+  return async(dispatch) => {
+    dispatch(userRequest());
+    try {
+      console.log(first_name, last_name, gender, email, password);
+      const user = await apiInstance.post('/register', JSON.stringify({ first_name, last_name, professional, gender, email, password }));
+      // const user = await Promise.resolve(dummyUser);
+      if(user.data === 'User Exist') {
+        dispatch(userError(user.data));
+      } else {
+        return dispatch(registerSuccess(user));
+      }
     } catch(e) {
       dispatch(userError(e));
       console.error(e);

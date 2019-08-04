@@ -14,7 +14,7 @@ def getAllUsers_db():
 def login_db(data):
     email = data['email']
     password = data['password']
-    query = "SELECT * FROM connect_in.users where email = $$"+email+"$$ AND password = $$"+password+"$$;"""
+    query = "SELECT * FROM connect_in.users where email = $$"+email+"$$ AND password = $$"+password+"$$;"
     cursor.execute(query)
     colnames = [desc[0] for desc in cursor.description]
     return cursor.fetchall() , colnames
@@ -25,7 +25,8 @@ def register_db(data):
     gender = data['gender']
     email = data['email']
     password = data['password']
-    query = "insert into connect_in.users (first_name, last_name, gender, email, password) values ($$"+first_name+"$$, $$"+last_name+"$$, $$"+gender+"$$, $$"+email+"$$, $$"+password+"$$);"
+    professional = data['professional']
+    query = "insert into connect_in.users (first_name, last_name, gender, email, password, professional) values ($$"+first_name+"$$, $$"+last_name+"$$, $$"+gender+"$$, $$"+email+"$$, $$"+password+"$$, $$"+professional+"$$);"
     count = 0
     err = ''
     try:

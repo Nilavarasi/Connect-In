@@ -97,6 +97,15 @@ export default function(state = initialState, action) {
         },
       };
     }
+    case types.REGISTER_SUCCESS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          loading: false,
+        },
+      };
+    }
     case types.ACTION_ERROR_USER: {
       return {
         ...state,
