@@ -12,7 +12,7 @@ app = Flask(__name__)
 from db_operations import \
 getAllUsers_db, login_db, register_db, add_connection_db, \
 get_user_db, get_user_connection_post_db, post_db, \
-like_post_db, get_user_post_db
+like_post_db, get_user_post_db, remove_connection_db \
 
 from utils import concatData
 
@@ -54,6 +54,15 @@ def addConnection():
     return 'Failure'
 
 
+@app.route('/removeConnection', methods=['POST'])
+def removeConnection():
+  insert_count, error = remove_connection_db(request.json)
+  if insert_count == 1 and error == '':
+    return 'Success'
+  else :
+    return 'Failure'
+
+
 @app.route('/getUser/<int:userID>')
 def getUserByID(userID):
   user, col_names = get_user_db(userID)
@@ -72,12 +81,14 @@ def getUserconnectionPost(userID):
   final_res = concatData(user, col_names)
   logging.warning("final_res", str(final_res))
   if len(final_res) > 0 :
-    return json.dumps(final_res[0])
+    return jsonify(final_res)
   return "Error"
 
 @app.route('/post', methods=['POST'])
 def post():
+  print("request.json", request.json)
   insert_count, error = post_db(request.json)
+  print("insert_count, error", insert_count, error)
   if insert_count == 1 and error == '':
     return 'Success'
   else :

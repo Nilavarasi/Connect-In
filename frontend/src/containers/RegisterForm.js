@@ -22,7 +22,11 @@ class RegisterForm extends Component {
 		password2: '',
 	}
 
-		handleSubmit = () => this.setState({ firstname: '',lastname: '', professional: '', gender: '', email: '', password: '', password2: '', })
+	handleSubmit = () =>{
+		console.log("im in")
+		window.location.reload()
+		this.setState({ firstname: '',lastname: '', professional: '', gender: '', email: '', password: '', password2: '', })
+	}
 
 	  render() {
 		const { error } = this.props;
@@ -31,6 +35,7 @@ class RegisterForm extends Component {
 			{
 				error ?
 					<Message size='mini' negative>
+						{console.log("error in mesg", error)}
 						{error}
 					</Message>
 

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Home from 'pages/Home';
 import Profile from 'pages/Profile';
+import UserProfile from 'pages/UserProfile';
 import Post from 'pages/Post';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
@@ -25,6 +26,7 @@ const Root = () => (
         <Route path="/home" exact component={Home} />
         <Route path="/register" component={Register} />
         <Route path="/profile" component={Profile} />
+        <Route path="/user/:id" component={UserProfile} />
         <Route path="/post" component={Post} />
         {/* <Route component={NoMatch} /> */}
       </Layout>

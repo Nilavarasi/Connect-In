@@ -1,39 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, Icon, Header as SemanticHeader, Container, Segment, Grid, Button} from 'semantic-ui-react'
-import { getUserState, getConnectionsForCurrentUser } from 'store/connectIn/selectors';
-import { removeConnection } from 'store/connectIn/actions';
+import { getUser, isUserConnected } from 'store/connectIn/selectors';
+import { addNewConnection } from 'store/connectIn/actions';
 
 
-class Profile extends Component {
+class UserProfile extends Component {
   extra = (
     <a>
       <Icon name='user' />
-       {this.props.user.object[0].connections ? (this.props.user.object[0].connections).length : 0 } Friends
+       {(this.props.user && this.props.user.connections) ? this.props.user.connections.length : 0 } Friends 
     </a>
   );
-  
-  removeConnection = (_id) => (
-    <Button basic color='red' onClick={() => this.props.removeConnection(this.props.user.object[0].id, _id)}>
-        Remove
-    </Button>
-  );
-
-  items = this.props.connections.map(data => {
-    return {
-      header: data.first_name+data.last_name,
-      description: data.email,
-      meta: data.professional,
-      extra: this.removeConnection(data._id)
-    }
-  })
-  
-
+   
   render() {
-    let { user, connections } = this.props;
-    console.log("connections", connections)
-    console.log(this.items)
-    return (
+    const { user, isConnected } = this.props;
+    console.log("this.props", this.props)
+    // console.log("this.props.match.params.redirectParam   ", this.props.match.params.redirectParam)
+    // console.log(user)
+    return user ? (
 
 
       <Container fluid text style={{ padding: '2rem 0'}}>
@@ -51,11 +36,19 @@ class Profile extends Component {
                 </Grid.Column>
                 <Grid.Column>
                   <Card
-                    header={user.object[0].first_name + " " +user.object[0].last_name}
-                    meta={user.object[0].email}
-                    description={user.object[0].professional}
+                    header={user.first_name + " " +user.last_name}
+                    meta={user.email}
+                    description={user.professional}
                     extra={this.extra}
                   />
+                  <Button 
+                    basic 
+                    color='green' 
+                    onClick={() => this.props.addNewConnection(user._id)}
+                    disabled={isConnected}
+                  >
+                      Add Connection
+                  </Button>
                 </Grid.Column>
               </Grid.Row>
               <Grid.Row>
@@ -70,18 +63,17 @@ class Profile extends Component {
           </div>
         </Segment>
       </Container>
-      );
+    ) : <p>Loading...</p>;
   }
 }
 
-const mapStateToProps = state => ({
-  user: getUserState(state),
-  connections: getConnectionsForCurrentUser(state),
+const mapStateToProps = (state, props) => ({
+  user: getUser(state, { id: props.match.params.id }),
+  isConnected: isUserConnected(state, { id: props.match.params.id }),
 });
 
+
 const mapDispatchToProps = {
-  removeConnection,
+  addNewConnection,
 };
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

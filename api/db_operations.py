@@ -1,6 +1,7 @@
 from utils import connectDB
 import logging
 import re
+import base64 
 
 connection = connectDB()
 con = connection[0]
@@ -52,6 +53,21 @@ def add_connection_db(data):
     return count, err
 
 
+def remove_connection_db(data):
+    user_id = data['user_id']
+    connector_id = data['connector_id']
+    query = "UPDATE connect_in.users SET connections = array_remove(connections, $$"+str(connector_id)+"$$) where id = $$"+str(user_id)+"$$;"
+    count = 0
+    err = ''
+    try:
+        cursor.execute(query)
+        con.commit()
+        count = cursor.rowcount
+    except Exception as ex:
+        err = str(ex)
+    return count, err
+
+
 def get_user_db(userID):
     cursor.execute("SELECT * FROM connect_in.users where id = $$"+str(userID)+"$$;")
     colnames = [desc[0] for desc in cursor.description]
@@ -74,11 +90,12 @@ def get_user_connection_post_db(userID):
         return 0, 'error'
 
 def post_db(data):
+    print("data", data)
     img_name = data['img_name']
-    img = data['img']
-    post_text = data['post_text']
+    img = str.encode(data['img'])
+    post_text = data['comment']
     user_id = data["user_id"]
-    query = "insert into connect_in.posts ( imgname, img, post_text, user_id) values ($$"+img_name+"$$, $$"+img+"$$, $$"+post_text+"$$, $$"+str(user_id)+"$$);"
+    query = "insert into connect_in.posts ( imgname, img, post_text, user_id) values ($$"+img_name+"$$, $$"+str(img)+"$$, $$"+post_text+"$$, $$"+str(user_id)+"$$);"
     count = 0
     err = ''
     try:

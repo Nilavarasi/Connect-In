@@ -1,54 +1,79 @@
 import React, { Component } from 'react';
-import { Button, Header, Image, Modal, Form } from 'semantic-ui-react';
-
+import { connect } from 'react-redux';
+import { Button, Icon, Modal, Form, TextArea } from 'semantic-ui-react';
+import { addNewPost } from 'store/connectIn/actions';
+import { getUserState } from 'store/connectIn/selectors';
+import '../index.css';
 
 class UploadPost extends Component {
 	
 	constructor(props) {
     super(props);
     this.state = {
-      file: null
+			file: '',
+			name: '',
+			comment: '',
+			modalOpen: false,
     };
 	}
 	
-	fileInputRef = React.createRef();
-		onFormSubmit = e => {
-			e.preventDefault(); // Stop form submit
-			this.fileUpload(this.state.file).then(response => {
-				console.log(response.data);
-			});
-		};
+	handleOpen = () => this.setState({ modalOpen: true })
 
-		fileChange = e => {
-			this.setState({ file: e.target.files[0] }, () => {
-				console.log("File chosen --->", this.state.file);
-			});
-		};
+	handleClose = () => {
+		this.setState({ modalOpen: false }) 
+		this.submitPost()
+	}
 
-		 // Import datasources/schemas Tab 1
-		 fileUpload = file => {
-			const url = "/some/path/to/post";
-			const formData = new FormData();
-			formData.append("file", file);
-			const config = {
-				headers: {
-					"Content-type": "multipart/form-data"
-				}
+	submitPost = () => {
+		if (this.state.file) {
+			let reader = new FileReader();
+			reader.readAsDataURL(this.state.file);
+			const scope = this;
+			reader.onload = function(e) {
+				const	readVal = reader.result;
+				scope.setState({'file': readVal, 'name': scope.state.file.name});
+				scope.props.addNewPost(scope.state.file, scope.state.name, scope.state.comment, scope.props.user.object[0].id);
 			};
-			return [url, formData, config];
+		} else {
+			this.props.addNewPost(this.state.file, this.state.name, this.state.comment, this.props.user.object[0].id);
+		}
+	}
+
+	fileInputRef = React.createRef();
+
+	fileChange = e => {
+			this.setState({ file: e.target.files[0] }, () => {
+					
+				  var reader = new FileReader();
+					reader.onload = (function(theFile) {
+					return function(e) {
+						// Render thumbnail.
+						document.getElementById("list").innerHTML = "";
+					  var span = document.createElement('span');
+					  span.innerHTML = ['<img class="thumb" src="', e.target.result,
+						'" title="', escape(theFile.name), '"/>'].join('');
+						document.getElementById('list').insertBefore(span, null);
+					};
+				  })(this.state.file);
+			
+				  reader.readAsDataURL(this.state.file);
+			});
 		};
 
 	render() {
-		const { file } = this.state;
-		
   return (
-		<Modal trigger={<Button>Upload Post</Button>} centered={false}>
+		<Modal 
+			trigger={<Button onClick={this.handleOpen}>Upload Post</Button>} 
+			centered={false} 
+			open={this.state.modalOpen}
+			onClose={this.handleClose} 
+		>
 			<Modal.Header>Select a Photo</Modal.Header>
 			<Modal.Content image>
 					<Form onSubmit={this.onFormSubmit}>
 						<Form.Field>
 							<Button
-								content="Choose File"
+								content="Choose Image"
 								labelPosition="left"
 								icon="file"
 								onClick={() => this.fileInputRef.current.click()}
@@ -60,16 +85,29 @@ class UploadPost extends Component {
 								onChange={this.fileChange}
 							/>
 						</Form.Field>
-						<Button type="submit">Upload</Button>
+						<div id="list"></div>
 					</Form>
-				<Image wrapped size='medium' src='/images/avatar/large/rachel.png' />
 				<Modal.Description>
-					<Header>Default Profile Image</Header>
-					<p>We've found the following gravatar image associated with your e-mail address.</p>
-					<p>Is it okay to use this photo?</p>
+					<TextArea 
+						placeholder='Write Something here..!' 
+						style={{ minHeight: 180, marginTop: 59, width: '80%' }}
+						onChange = {(e) => this.setState({'comment': e.target.value})}/>
 				</Modal.Description>
 			</Modal.Content>
+			<Modal.Actions>
+          <Button color='teal' onClick={this.handleClose} inverted>
+            <Icon name='cloud upload' /> Upload
+          </Button>
+      </Modal.Actions>
 		</Modal>
 );}}
 
-export default UploadPost;
+const mapDispatchToProps = {
+  addNewPost,
+};
+
+const mapStateToProps = state => ({
+  user: getUserState(state),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadPost);

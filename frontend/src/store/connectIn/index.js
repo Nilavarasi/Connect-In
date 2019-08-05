@@ -62,6 +62,17 @@ const initialState = {
     items: [],
     object: null,
   },
+  connectionsPost: {
+    loading: false,
+    error: null,
+    items: [],
+    object: null,
+  },
+  users: {
+    loading: false,
+    error: null,
+    user: [],
+  }
 };
 
 export default function(state = initialState, action) {
@@ -106,6 +117,16 @@ export default function(state = initialState, action) {
         },
       };
     }
+    case types.REGISTER_ERROR: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          loading: false,
+          error: action.error,
+        },
+      };
+    }
     case types.ACTION_ERROR_USER: {
       return {
         ...state,
@@ -126,11 +147,48 @@ export default function(state = initialState, action) {
         }
       }
     }
+    case types.ACTION_ALL_REQUEST_USER: {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          loading: false,
+        },
+      };
+    }
+    case types.ACTION_ALL_REQUEST_USER_SUCCESS: {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          loading: false,
+          user: action.users.map(({ id, ...rest }) => ({ _id: id, key: id, ...rest })),
+        },
+      };
+    }
     case types.ACTION_REQUEST_POST: {
       return {
         ...state,
         posts: {
           loading: true,
+        },
+      };
+    }
+
+    case types.ACTION_REQUEST_CONNECTION_POST: {
+      return {
+        ...state,
+        connectionsPost: {
+          loading: true,
+        },
+      };
+    }
+    case types.REQUEST_CONNECTION_POST_SUCCESS: {
+      return {
+        ...state,
+        connectionsPost: {
+          loading: false,
+          items: action.posts,
         },
       };
     }
@@ -145,21 +203,21 @@ export default function(state = initialState, action) {
     }
     case types.GET_ALL_POST: {
       const postIds = [];
-      const postObject = action.posts.reduce((acc, post) => {
-        postIds.push(post.id);
-        return {
-          ...acc,
-          [post.id]: post,
-        };
-      }, {});
+      // const postObject = action.posts.reduce((acc, post) => {
+      //   postIds.push(post.id);
+      //   return {
+      //     ...acc,
+      //     [post.id]: post,
+      //   };
+      // }, {});
 
       return {
         ...state,
         posts: {
           ...state.posts,
           loading: false,
-          object: postObject,
-          items: postIds,
+          // object: postObject,
+          items: action.posts,
         },
       };
     }
@@ -181,20 +239,32 @@ export default function(state = initialState, action) {
         },
       };
     }
+
+    case types.RELOAD_POST: {
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          loading: false,
+        },
+      };
+    }
+
     case types.ADD_POST: {
       return {
         ...state,
         posts: {
           ...state.posts,
           loading: false,
-          items: [
-            ...state.posts.items,
-            action.post.id,
-          ],
-          object: {
-            ...state.posts.object,
-            [action.post.id]: action.post,
-          },
+          status: action.status,
+          // items: [
+          //   ...state.posts.items,
+          //   action.post.id,
+          // ],
+          // object: {
+          //   ...state.posts.object,
+          //   [action.post.id]: action.post,
+          // },
         },
       };
     }
@@ -276,31 +346,33 @@ export default function(state = initialState, action) {
         connections: {
           ...state.connections,
           loading: false,
-          items: [
-            ...state.connections.items,
-            action.connection.id,
-          ],
-          object: {
-            ...state.connections.object,
-            [action.connection.id]: action.connection,
-          },
+          status: action.status,
+          // items: [
+          //   ...state.connections.items,
+          //   action.connection.id,
+          // ],
+          // object: {
+          //   ...state.connections.object,
+          //   [action.connection.id]: action.connection,
+          // },
         },
       };
     }
     case types.DELETE_CONNECTION: {
-      const removeIndex = state.connections.items.findIndex(action.id);
-      const newItems = [...state.connections.items];
-      newItems.splice(removeIndex, 1);
-      const newObject = {...state.connections.object};
-      delete newObject[action.id];
+      // const removeIndex = state.connections.items.findIndex(action.id);
+      // const newItems = [...state.connections.items];
+      // newItems.splice(removeIndex, 1);
+      // const newObject = {...state.connections.object};
+      // delete newObject[action.id];
 
       return {
         ...state,
         connections: {
           ...state.connections,
           loading: false,
-          items: newItems,
-          object: newObject,
+          status: action.status,
+          // items: newItems,
+          // object: newObject,
         },
       };
     }

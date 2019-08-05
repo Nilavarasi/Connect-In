@@ -5,6 +5,13 @@ export const user = {
   avatar: 'https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/girl-512.png',
 };
 
+export const avatar = {
+  1: 'https://react.semantic-ui.com/images/avatar/small/elliot.jpg',
+  2: 'https://react.semantic-ui.com/images/avatar/small/steve.jpg',
+  3: 'https://react.semantic-ui.com/images/avatar/small/molly.png',
+  4: 'https://cdn3.iconfinder.com/data/icons/rcons-user-action/32/girl-512.png',
+}
+
 export const posts = [
   {
     id: 101,
